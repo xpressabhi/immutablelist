@@ -1,0 +1,5 @@
+.idea/
+target/
+target/immutable-list-1.0-SNAPSHOT.jar
+
+log4j-application.log
