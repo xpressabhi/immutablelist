@@ -1,69 +1,49 @@
 package list;
 
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ImmutableListTest {
-    final static Logger LOGGER = Logger.getLogger(ImmutableList.class);
-
-    @Test
-    public void listCreationTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c");
-        LOGGER.info("List Size: " + list.size());
-        Assert.assertEquals(3, list.size());
-    }
 
     @Test
     public void listHeadTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c");
-        String head = list.head();
-        LOGGER.info("List Head: " + head);
-        Assert.assertEquals("a", head);
-    }
-
-    @Test
-    public void listComparisonTest() {
-        ImmutableList<String> list1 = new ImmutableList<>("a", "b", "c");
-        LOGGER.info("List1: " + list1);
-        ImmutableList<String> list2 = new ImmutableList<>("a", "b", "c");
-        LOGGER.info("List2: " + list2);
-        Assert.assertEquals(list1, list2);
+        ImmutableList<String> list = new ImmutableList<>("A");
+        Assert.assertEquals("A", list.head());
     }
 
     @Test
     public void listTailTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c");
-        LOGGER.info("Original List: " + list);
-        ImmutableList<String> tail = list.tail();
-        LOGGER.info("List Tail: " + tail);
-        Assert.assertEquals(new ImmutableList<>("b", "c"), tail);
+        ImmutableList<String> list1 = new ImmutableList<>("B", new ImmutableList<>("A"));
+        ImmutableList<String> list2 = list1.tail();
+        Assert.assertEquals(new ImmutableList<>("B", new ImmutableList<>("A")), list1);
+        Assert.assertEquals(new ImmutableList<>("A"), list2);
     }
-
     @Test
     public void listConsTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c");
-        LOGGER.info("Original List: " + list);
-        ImmutableList<String> cons = list.cons("z");
-        LOGGER.info("List Cons: " + cons);
-        Assert.assertEquals(new ImmutableList<>("z","a","b", "c"), cons);
+        ImmutableList<String> list1 = new ImmutableList<>();
+        ImmutableList<String> list2 = list1.cons("A");
+        Assert.assertEquals(new ImmutableList<>(), list1);
+        Assert.assertEquals(new ImmutableList<>("A"), list2);
+        Assert.assertEquals(list1, list2.tail());
     }
 
     @Test
     public void listDropTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c","d","e","f");
-        LOGGER.info("Original List: " + list);
-        ImmutableList<String> drop = list.drop(3);
-        LOGGER.info("List drop: " + drop);
-        Assert.assertEquals(new ImmutableList<>("d","e","f"), drop);
+        ImmutableList<String> list1 = new ImmutableList<>("B", new ImmutableList<>("A",
+                new ImmutableList<>("C", new ImmutableList<>("D", new ImmutableList<>(
+                        "E")))));
+        ImmutableList<String> list2 = list1.drop(3);
+        Assert.assertEquals(new ImmutableList<>("D", new ImmutableList<>("E")), list2);
     }
 
     @Test
     public void listReverseTest() {
-        ImmutableList<String> list = new ImmutableList<>("a", "b", "c","d");
-        LOGGER.info("Original List: " + list);
-        ImmutableList<String> rev = list.reverse();
-        LOGGER.info("List Reverse: " + rev);
-        Assert.assertEquals(new ImmutableList<>("d","c","b", "a"), rev);
+        ImmutableList<String> list1 = new ImmutableList<String>().cons("E").cons("D")
+                .cons("C").cons("A").cons("B");
+        ImmutableList<String> list2 = list1.reverse();
+        Assert.assertEquals(new ImmutableList<>("E", new ImmutableList<>("D",
+                new ImmutableList<>("C",
+                        new ImmutableList<>("A", new ImmutableList<>("B"))))), list2);
     }
+
 }
